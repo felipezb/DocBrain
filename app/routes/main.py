@@ -8,6 +8,10 @@ auth_bp = Blueprint('auth', __name__)
 def index():
     return render_template('index.html')
 
+@main_bp.route('/precos')
+def precos():
+    return render_template('precos.html')
+
 @main_bp.route('/dashboard')
 @login_required
 def dashboard():

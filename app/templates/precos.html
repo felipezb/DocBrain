@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>DocBrain – Preços</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    body {
+      background-color: #f8f9fa;
+    }
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .logo img {
+      height: 40px;
+    }
+    .planos {
+      padding: 60px 0;
+    }
+    .plano {
+      background-color: #fff;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.05);
+      padding: 30px;
+      text-align: center;
+    }
+    .plano h3 {
+      font-weight: bold;
+    }
+    .plano ul {
+      list-style: none;
+      padding: 0;
+    }
+    .plano ul li {
+      margin: 10px 0;
+    }
+    footer {
+      margin-top: 60px;
+      text-align: center;
+      color: #888;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navbar -->
+  <nav class="navbar navbar-light bg-white shadow-sm px-4">
+    <div class="container-fluid">
+      <div class="logo">
+        <img src="/static/img/logo.png" alt="DocBrain Logo">
+        <span class="fs-4 fw-bold">DocBrain</span>
+      </div>
+      <div>
+        <a href="/" class="me-3 text-dark text-decoration-none">Início</a>
+        <a href="/precos" class="me-3 text-dark text-decoration-none fw-bold">Preços</a>
+        <a href="/login" class="btn btn-primary">Acessar</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Planos -->
+  <section class="planos container">
+    <div class="row g-4">
+      <div class="col-md-4">
+        <div class="plano">
+          <h3>Plano Gratuito</h3>
+          <p class="text-muted">R$ 0 / mês</p>
+          <ul>
+            <li>Limite mensal de documentos</li>
+            <li>Templates básicos</li>
+            <li>Marca d'água nos PDFs</li>
+          </ul>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="plano border border-primary">
+          <h3>Plano Pago</h3>
+          <p class="text-primary fw-bold">R$ 15 / mês</p>
+          <ul>
+            <li>Uso ilimitado</li>
+            <li>Templates premium</li>
+            <li>Histórico completo</li>
+            <li>Envio por e-mail</li>
+          </ul>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="plano">
+          <h3>Licenciamento</h3>
+          <p class="text-muted">Sob consulta</p>
+          <ul>
+            <li>Oferta para escritórios</li>
+            <li>Startups e coworkings</li>
+            <li>Instituições e empresas</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="container">
+    <p>© 2025 DocBrain - Todos os direitos reservados</p>
+  </footer>
+
+</body>
+</html>
