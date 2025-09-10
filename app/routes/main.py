@@ -15,6 +15,7 @@ def precos():
 @main_bp.route('/dashboard')
 @login_required
 def dashboard():
+    # Aqui você pode futuramente puxar dados reais do banco
     return render_template('dashboard.html')
 
 @auth_bp.route('/logout')

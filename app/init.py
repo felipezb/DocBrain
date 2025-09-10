@@ -4,6 +4,11 @@ from flask_sqlalchemy import SQLAlchemy
 from .routes.main import main_bp
 from .routes.auth import auth_bp
 from .models import Usuario
+from .routes.documentos import documentos_bp
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
 
 db = SQLAlchemy()
 login_manager = LoginManager()
@@ -26,6 +31,7 @@ def create_app():
     # Registrar blueprints
     app.register_blueprint(main_bp)
     app.register_blueprint(auth_bp)
+    app.register_blueprint(documentos_bp)
 
     return app
 

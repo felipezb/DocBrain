@@ -25,13 +25,21 @@ def cadastro():
         nome = request.form['nome']
         email = request.form['email']
         senha = request.form['senha']
+        confirmar = request.form['confirmar_senha']
+
+        if senha != confirmar:
+            flash('As senhas não coincidem.')
+            return redirect(url_for('auth.cadastro'))
+
         if Usuario.query.filter_by(email=email).first():
             flash('E-mail já cadastrado.')
             return redirect(url_for('auth.cadastro'))
+
         novo_usuario = Usuario(nome=nome, email=email)
         novo_usuario.definir_senha(senha)
         db.session.add(novo_usuario)
         db.session.commit()
         flash('Cadastro realizado com sucesso!')
         return redirect(url_for('auth.login'))
+
     return render_template('cadastro.html')
