@@ -7,6 +7,7 @@ from .models import Usuario
 from .routes.documentos import documentos_bp
 import os
 from dotenv import load_dotenv
+from .routes.usuarios import usuarios_bp
 
 load_dotenv()
 
@@ -32,6 +33,7 @@ def create_app():
     app.register_blueprint(main_bp)
     app.register_blueprint(auth_bp)
     app.register_blueprint(documentos_bp)
+    app.register_blueprint(usuarios_bp)
 
     return app
 
