@@ -1,5 +1,5 @@
 from flask import Blueprint, render_template, redirect, url_for
-from flask_login import flash, login_required, logout_user
+from flask_login import login_required, logout_user
 
 main_bp = Blueprint('main', __name__)
 auth_bp = Blueprint('auth', __name__)
