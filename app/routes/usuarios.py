@@ -1,7 +1,7 @@
 from flask import Blueprint, render_template, redirect, url_for, flash, request
 from flask_login import login_required, current_user
 from werkzeug.security import check_password_hash, generate_password_hash
-from forms.alterar_senha import AlterarSenhaForm
+from app.forms.alterar_senha import AlterarSenhaForm
 from app import db
 
 usuarios_bp = Blueprint('usuarios', __name__)

@@ -2,7 +2,7 @@ from flask import Blueprint, render_template, request, redirect, url_for, flash
 from flask_login import login_required, current_user
 from app import db
 from app.models import Documento
-from utils.ia import gerar_documento_ia
+from app.utils.ia import gerar_documento_ia
 
 documentos_bp = Blueprint('documentos', __name__)
 
@@ -46,11 +46,14 @@ def gerar_documento():
 @login_required
 def editar_documento(id):
     doc = Documento.query.get_or_404(id)
+    if doc.usuario_id != current_user.id:
+        flash('Você não tem permissão para editar este documento.', 'danger')
+        return redirect(url_for('main.dashboard'))
 
     if request.method == 'POST':
         doc.conteudo = request.form['conteudo']
         db.session.commit()
-        flash('Documento atualizado com sucesso!')
+        flash('Documento atualizado com sucesso!', 'success')
         return redirect(url_for('documentos.editar_documento', id=doc.id))
 
     return render_template('editar_documento.html', documento=doc)

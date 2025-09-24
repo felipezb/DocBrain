@@ -1,8 +1,7 @@
-from flask import Blueprint, render_template, redirect, url_for
-from flask_login import login_required, logout_user
+from flask import Blueprint, render_template, redirect, url_for, flash
+from flask_login import login_required
 
 main_bp = Blueprint('main', __name__)
-auth_bp = Blueprint('auth', __name__)
 
 @main_bp.route('/')
 def index():
@@ -15,12 +14,5 @@ def precos():
 @main_bp.route('/dashboard')
 @login_required
 def dashboard():
-    # Aqui você pode futuramente puxar dados reais do banco
+    # Exemplo: dados = Documento.query.filter_by(usuario_id=current_user.id).all()
     return render_template('dashboard.html')
-
-@auth_bp.route('/logout')
-@login_required
-def logout():
-    logout_user()
-    flash('Sessão encerrada.')
-    return redirect(url_for('auth.login'))
