@@ -1,62 +1,117 @@
-{% extends "base.html" %}
-{% block title %}Novo Documento – DocBrain{% endblock %}
-{% block content %}
-  <h2 class="mb-4">Novo documento ✏</h2>
-  <div class="row g-4">
-    <!-- Formulário -->
-    <div class="col-md-6">
-      <div class="form-section">
-        <form method="POST" action="/documentos/gerar">
-          <div class="mb-3">
-            <label for="tipo" class="form-label">Tipo de documento</label>
-            <select class="form-select" name="tipo" id="tipo">
-              <option {% if tipo == 'Proposta' %}selected{% endif %}>Proposta</option>
-              <option {% if tipo == 'Contrato' %}selected{% endif %}>Contrato</option>
-              <option {% if tipo == 'Orçamento' %}selected{% endif %}>Orçamento</option>
-            </select>
-          </div>
-          <div class="mb-3">
-            <label for="cliente" class="form-label">Nome do cliente</label>
-            <input type="text" class="form-control" name="cliente" id="cliente" value="{{ cliente or '' }}">
-          </div>
-          <div class="mb-3">
-            <label for="empresa" class="form-label">Empresa</label>
-            <input type="text" class="form-control" name="empresa" id="empresa" value="{{ empresa or '' }}">
-          </div>
-          <div class="row">
-            <div class="col-md-6 mb-3">
-              <label for="valor" class="form-label">Valor</label>
-              <input type="text" class="form-control" name="valor" id="valor" value="{{ valor or '' }}">
-            </div>
-            <div class="col-md-6 mb-3">
-              <label for="prazo" class="form-label">Prazo</label>
-              <input type="text" class="form-control" name="prazo" id="prazo" value="{{ prazo or '' }}">
-            </div>
-          </div>
-          <div class="mb-3">
-            <label for="observacoes" class="form-label">Personalização – Instruções adicionais</label>
-            <textarea class="form-control" name="observacoes" id="observacoes" rows="4">{{ observacoes or '' }}</textarea>
-          </div>
-          <button type="submit" class="btn btn-primary w-100 mb-2">Gerar com IA</button>
-        </form>
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Novo Documento – DocBrain</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+  <style>
+    body { background-color: #f8f9fa; }
+    .sidebar {
+      height: 100vh;
+      background-color: #fff;
+      border-right: 1px solid #ddd;
+      padding-top: 40px;
+    }
+    .sidebar a {
+      display: block;
+      padding: 15px 25px;
+      color: #333;
+      text-decoration: none;
+      font-weight: 500;
+    }
+    .sidebar a:hover { background-color: #f0f0f0; }
+    .main { padding: 40px; }
+    footer { margin-top: 40px; text-align: center; color: #888; }
+    .form-section, .preview-section {
+      background-color: #fff;
+      padding: 30px 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.05);
+      margin-bottom: 20px;
+    }
+  </style>
+</head>
+<body>
+  <div class="d-flex">
+    <!-- Sidebar -->
+    <div class="sidebar col-md-2">
+      <div class="text-center mb-4">
+        <img src="/static/img/logo.png" alt="DocBrain Logo" height="40">
+        <h5 class="mt-2">DocBrain</h5>
       </div>
+      <a href="/dashboard"><i class="bi bi-house me-2"></i> Dashboard</a>
+      <a href="/documentos/novo"><i class="bi bi-file-earmark-plus me-2"></i> Novo documento</a>
+      <a href="/documentos/historico"><i class="bi bi-clock-history me-2"></i> Histórico</a>
+      <a href="/configuracoes"><i class="bi bi-gear me-2"></i> Configurações</a>
+      <a href="/logout"><i class="bi bi-box-arrow-right me-2"></i> Sair</a>
     </div>
-    <!-- Pré-visualização -->
-    <div class="col-md-6">
-      <div class="preview-section">
-        <h5 class="mb-3">Pré-visualização</h5>
-        <div class="border rounded p-3" style="height: 300px;">
-          {% if conteudo %}
-            <p>{{ conteudo }}</p>
-          {% else %}
-            <p class="text-muted">Nenhum conteúdo gerado ainda.</p>
-          {% endif %}
+    <!-- Main Content -->
+    <div class="main col-md-10">
+      <h2 class="mb-4">Novo documento ✏</h2>
+      <div class="row g-4">
+        <!-- Formulário -->
+        <div class="col-md-6">
+          <div class="form-section">
+            <form method="POST" action="/documentos/gerar">
+              <div class="mb-3">
+                <label for="tipo" class="form-label">Tipo de documento</label>
+                <select class="form-select" name="tipo" id="tipo">
+                  <option {% if tipo == 'Proposta' %}selected{% endif %}>Proposta</option>
+                  <option {% if tipo == 'Contrato' %}selected{% endif %}>Contrato</option>
+                  <option {% if tipo == 'Orçamento' %}selected{% endif %}>Orçamento</option>
+                </select>
+              </div>
+              <div class="mb-3">
+                <label for="cliente" class="form-label">Nome do cliente</label>
+                <input type="text" class="form-control" name="cliente" id="cliente" value="{{ cliente or '' }}">
+              </div>
+              <div class="mb-3">
+                <label for="empresa" class="form-label">Empresa</label>
+                <input type="text" class="form-control" name="empresa" id="empresa" value="{{ empresa or '' }}">
+              </div>
+              <div class="row">
+                <div class="col-md-6 mb-3">
+                  <label for="valor" class="form-label">Valor</label>
+                  <input type="text" class="form-control" name="valor" id="valor" value="{{ valor or '' }}">
+                </div>
+                <div class="col-md-6 mb-3">
+                  <label for="prazo" class="form-label">Prazo</label>
+                  <input type="text" class="form-control" name="prazo" id="prazo" value="{{ prazo or '' }}">
+                </div>
+              </div>
+              <div class="mb-3">
+                <label for="observacoes" class="form-label">Personalização – Instruções adicionais</label>
+                <textarea class="form-control" name="observacoes" id="observacoes" rows="4">{{ observacoes or '' }}</textarea>
+              </div>
+              <button type="submit" class="btn btn-primary w-100 mb-2">Gerar com IA</button>
+            </form>
+          </div>
         </div>
-        <div class="d-flex justify-content-between mt-4">
-          <button class="btn btn-success">Salvar</button>
-          <button class="btn btn-outline-primary">Exportar para PDF</button>
+        <!-- Pré-visualização -->
+        <div class="col-md-6">
+          <div class="preview-section">
+            <h5 class="mb-3">Pré-visualização</h5>
+            <div class="border rounded p-3" style="height: 300px;">
+              {% if conteudo %}
+                <p>{{ conteudo }}</p>
+              {% else %}
+                <p class="text-muted">Nenhum conteúdo gerado ainda.</p>
+              {% endif %}
+            </div>
+            <div class="d-flex justify-content-between mt-4">
+              <button class="btn btn-success">Salvar</button>
+              <button class="btn btn-outline-primary">Exportar para PDF</button>
+            </div>
+          </div>
         </div>
       </div>
+      <footer class="mt-5">
+        <p>© 2025 DocBrain - Todos os direitos reservados</p>
+      </footer>
     </div>
   </div>
-{% endblock %}
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
