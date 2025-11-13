@@ -2,30 +2,40 @@
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import UserMixin
 from werkzeug.security import generate_password_hash, check_password_hash
-from datetime import datetime, timezone
-
-db = SQLAlchemy()
+from datetime import datetime
+from . import db  # usa a instância única definida em app/__init__.py
 
 class Usuario(db.Model, UserMixin):
+    __tablename__ = 'usuarios'
     id = db.Column(db.Integer, primary_key=True)
-    nome = db.Column(db.String(100), nullable=False)
-    email = db.Column(db.String(120), unique=True, nullable=False)
-    senha_hash = db.Column(db.String(128), nullable=False)
+    nome = db.Column(db.String(120), nullable=False)
+    email = db.Column(db.String(120), unique=True, nullable=False, index=True)
+    senha = db.Column(db.String(255), nullable=False)
+    data_criacao = db.Column(db.DateTime, default=datetime.utcnow)
 
-    def definir_senha(self, senha):
-        self.senha_hash = generate_password_hash(senha)
+    def definir_senha(self, senha_plana):
+        self.senha = generate_password_hash(senha_plana)
 
-    def verificar_senha(self, senha):
-        return check_password_hash(self.senha_hash, senha)
-    
+    def verificar_senha(self, senha_plana):
+        return check_password_hash(self.senha, senha_plana)
+
+    def __repr__(self):
+        return f"<Usuario {self.email}>"
+
 class Documento(db.Model):
+    __tablename__ = 'documentos'
     id = db.Column(db.Integer, primary_key=True)
-    tipo = db.Column(db.String(50), nullable=False)
-    cliente = db.Column(db.String(100), nullable=False)
-    empresa = db.Column(db.String(100), nullable=False)
-    servico = db.Column(db.String(200), nullable=False)
-    valor = db.Column(db.String(20))
-    prazo = db.Column(db.String(50))
-    observacoes = db.Column(db.Text)
-    criado_em = db.Column(db.DateTime, default=lambda: datetime.now(timezone.utc))
-    usuario_id = db.Column(db.Integer, db.ForeignKey('usuario.id'))
+    usuario_id = db.Column(db.Integer, db.ForeignKey('usuarios.id'), nullable=False)
+    tipo = db.Column(db.String(80))
+    cliente = db.Column(db.String(200))
+    empresa = db.Column(db.String(200))
+    valor = db.Column(db.String(100))
+    prazo = db.Column(db.String(100))
+    conteudo = db.Column(db.Text)
+    data_criacao = db.Column(db.DateTime, default=datetime.utcnow)
+    data_atualizacao = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
+
+    usuario = db.relationship('Usuario', backref=db.backref('documentos', lazy=True))
+
+    def __repr__(self):
+        return f"<Documento {self.id}>"
